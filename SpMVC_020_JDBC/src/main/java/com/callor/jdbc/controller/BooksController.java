@@ -8,10 +8,20 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@RequestMapping(value="/books")
 public class BooksController {
 	
-	@RequestMapping(value="/books/insert", method=RequestMethod.GET)
+	// 배열식. /가 붙어있거나 안붙어있거나
+	@RequestMapping(value={"/",""}, method=RequestMethod.GET)
+	public String books() {
+		
+		log.debug("Books Root");
+		return "books/list";
+	}
+	
+	@RequestMapping(value= {"/insert"}, method=RequestMethod.GET)
 	public String insert() {
+		
 		
 		return "books/input";
 	}

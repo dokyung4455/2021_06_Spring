@@ -28,8 +28,7 @@ public class HomeController {
 	// String.properties 파일에 설정된 속성값 가져와서 변수에 setting
 	@Value("${user.name}")
 	protected String user_name;
-	
-	@Value("${user.name}")
+	@Value("${user.email}")
 	protected String user_email;
 	
 	
