@@ -31,7 +31,7 @@
 		</tr>
 	</table>
 	<div class="btn_box">
-		<button class="btn_book_insert">도서등록</button>
+		<button class="btn_insert book">도서등록</button>
 	</div>
 
 
@@ -40,7 +40,7 @@
 	<%@include file="/WEB-INF/views/include/include_footer.jspf"%>
 </body>
 <script type="text/javascript">
-	document.querySelector("button.btn_book_insert").addEventListener("click", ()=> {
+	document.querySelector("button.btn_insert.book").addEventListener("click", ()=> {
 		location.href = "${rootPath}/books/insert";
 	});
 </script>

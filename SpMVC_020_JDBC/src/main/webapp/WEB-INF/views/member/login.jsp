@@ -54,6 +54,7 @@
 		background: none;
 		display: block;
 		margin: 20px auto;
+		width:200px;
 		text-align: center;
 		border:1px solid silver;
 		color:white;

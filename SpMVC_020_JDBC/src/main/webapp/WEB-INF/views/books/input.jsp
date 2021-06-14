@@ -6,12 +6,12 @@
 <html>
 <%@ include file="/WEB-INF/views/include/include_head.jspf"%>
 <style>
-form {
+form.input2 {
 	width: 80%;
 	margin: 15px auto;
 }
 
-fieldset {
+fieldset.input {
 	border: 1px solid olive;
 	border-radius: 5px;
 }
@@ -50,8 +50,8 @@ form input:hover {
 </style>
 <body>
 	<%@ include file="/WEB-INF/views/include/include_header.jspf"%>
-	<form method="POST">
-		<fieldset>
+	<form class="input2" method="POST">
+		<fieldset class="input">
 			<legend>도서정보 등록</legend>
 			<div>
 				<label>ISBN</label> <input name="bk_isbn" id="bk_isbn"

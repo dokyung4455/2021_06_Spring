@@ -8,22 +8,67 @@
 	padding: 0;
 	margin: 0;
 }
+
+html {
+	height: 100%;
+}
+
+body::before {
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: url("${rootPath}/static/images/liv2.jpg") no-repeat;
+	background-size: 100% 100%;
+	-webkit-filter: blur(2px);
+	-moz-filter: blur(2px);
+	-o-filter: blur(2px);
+	-ms-filter: blur(2px);
+	filter: blur(2px);
+	z-index: -1;
+	content: "";
+}
+
 header {
-	background-color: silver;
+	background: rgb(30, 30, 30); background : linear-gradient( 180deg, rgba(
+	30, 30, 30, 0.75) 69%, rgba( 0, 0, 0, 0) 100%);
 	color: white;
-	text-shadow: 1px 1px 1px grey;
+	text-shadow: 2px 2px 2px grey;
 	text-align: center;
-	padding: 2rem; /* 1rem은 1.1 ~ 1.2 배 정도이다. */
+	padding: 2rem;
+	background: linear-gradient(180deg, rgba(30, 30, 30, 0.75) 69%,
+		rgba(0, 0, 0, 0) 100%); /* 1rem은 1.1 ~ 1.2 배 정도이다. */
+}
+
+form.header1 {
+	display: flex;
+	justify-content: center;
+	outline: 0;
+	text-align: center;
+}
+
+div {
+	display: inline-block;
+	text-align: center;
+	padding: 0 50px;
 }
 
 nav#main_nav {
-	background-color: grey;
+	display: flex;
+	background-color: rgba(0, 0, 0, 0.7);
+	border-radius: 10px;
+	width: 100%;
 	color: white;
+	justify-content: center;
+	outline: 0;
 }
 
 nav#main_nav ul {
 	list-style: none;
 	display: flex;
+	text-align: center;
 }
 /*
 		ul li tag를 메뉴 등으로 설정할 경우
@@ -39,58 +84,62 @@ nav#main_nav ul {
 	*/
 nav#main_nav li {
 	padding: 5px 12px;
-}
-
-nav#main_nav li:first-child {
-	margin-left: 15px;
+	text-align: center;
+	padding: 6px 50px;
 }
 
 nav#main_nav li:hover {
-	background-color: silver;
-	border-bottom: 2px solid white;
-	border-left: 2px solid white;
-	border-right: 2px solid white;
+	background-color: rgba(50, 50, 50, 0.7);
+	border-radius: 10px;
 	cursor: pointer;
-	font-size: 18px;
 }
 /*
 	home.jsp에서 중간에 이미지를 표현하는 부분의 CSS 인데 rootPath 변수 사용관계로 별도의 main_home.css에
 	둘 수 없어서 여기로 이동
 */
 section#ad_sec article:nth-of-type(1) {
-	background:url("${rootPath}/static/images/ad_01.jpg") no-repeat;
+	background: url("${rootPath}/static/images/ad_01.jpg") no-repeat;
 }
+
 section#ad_sec article:nth-of-type(2) {
-	background:url("${rootPath}/static/images/ad_02.jpg") no-repeat;
+	background: url("${rootPath}/static/images/ad_02.jpg") no-repeat;
 }
+
 section#ad_sec article:nth-of-type(3) {
-	background:url("${rootPath}/static/images/ad_03.jpg") no-repeat;
+	background: url("${rootPath}/static/images/ad_03.jpg") no-repeat;
 }
+
 section#ad_sec article:nth-of-type(4) {
-	background:url("${rootPath}/static/images/ad_04.jpg") no-repeat;
+	background: url("${rootPath}/static/images/ad_04.jpg") no-repeat;
 }
+
 section#ad_sec article:nth-of-type(5) {
-	background:url("${rootPath}/static/images/ad_05.jpg") no-repeat;
+	background: url("${rootPath}/static/images/ad_05.jpg") no-repeat;
 }
 </style>
 <script>
 	// jsp의 el tag의 변수를 js 변수로 다시 선언하기
 	// var는 전역변수, 위치에 관계없이 어디서나 읽을 수 있는 변수
-	var rootPath="${rootPath}";
+	var rootPath = "${rootPath}";
 </script>
 <script src="${rootPath}/static/js/main_nav.js?ver=2021-05-10-002"></script>
 
 <header>
+	<!-- <img src="${rootPath}/static/images/liv2.jpg" art="배경이미지"/> -->
 	<h1>2021년 도서정보 관리 시스템</h1>
 	<p>빛고을 총판 도서관리 시스템 V1.0</p>
 </header>
-<nav id="main_nav">
-	<ul>
-		<li>HOME</li>
-		<li>도서정보</li>
-		<li>출판사정보</li>
-		<li>저자정보</li>
-		<li>로그인</li>
-		<li>회원가입</li>
-	</ul>
-</nav>
+<form class="header1">
+	<div>
+		<nav id="main_nav">
+			<ul>
+				<li>HOME</li>
+				<li>도서정보</li>
+				<li>출판사정보</li>
+				<li>저자정보</li>
+				<li>로그인</li>
+				<li>회원가입</li>
+			</ul>
+		</nav>
+	</div>
+</form>
