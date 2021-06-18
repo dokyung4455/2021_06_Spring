@@ -12,6 +12,7 @@
 </head>
 <body>
 	<h1>출판사 등록</h1>
+	<section class="main_sec">
 	<form method="POST">
 		<div>
 			<label>출판사명</label>
@@ -31,11 +32,13 @@
 		</div>
 		<div><button>저장</button></div>
 	</form>
+	
 	<div>
 		<label>삭제할 코드</label>
 		<input name="cpcode" id="cpcode"/>
 		<button class="btn_delete">삭제</button>
 	</div>
+	</section>
 	<script>
 	// const : 상수를 선언하는 키워드
 	// ㄴ 코드가 진행되는 동안 값이 변경되면 안되는 것

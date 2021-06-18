@@ -9,8 +9,14 @@ section#main_sec {
 
 section#main_sec article {
 	flex: 1;
-	border: 3px solid red;
 	margin: 6px 3px;
+	background-color: rgba(0,0,0,0.7);
+	border-radius: 5px;
+	color:white;
+	
+}
+section#main_sec article h3 {
+	margin-left: 10px;
 }
 
 section#main_sec article ul, section#main_sec article ol {
@@ -32,6 +38,11 @@ section#ad_sec article {
 	flex: 1;
 	margin: 5px 3px;
 	height: 100px;
+	/*
+		article box에 지정된 background를 box에 가득차도록 하고, 이미지는 box 크기만큼 가로세로를 조절하여 채워라
+		현재 article에 background를 채우면서 nth-of-type(*) 가상 클래스를 사용하였더니
+		background-size가 작동되지 않더라
+	*/
 	background-size: 100% 100%;
 	border-radius: 5px;
 }
