@@ -12,12 +12,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class ScoreVO {
+public class ScoreDTO {
 
-	Integer sc_seq;
-	Integer sc_stnum;
+	String sc_seq;
 	String sc_subject;
-	Integer sc_score;
+	String sc_score;
 
 	
 }

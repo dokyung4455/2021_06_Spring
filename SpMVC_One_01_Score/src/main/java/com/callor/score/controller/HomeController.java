@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.callor.score.model.ViewDTO;
-import com.callor.score.service.RentService;
+import com.callor.score.service.HomeService;
 
 @Controller
 public class HomeController {
 	
-	protected final RentService rService;
-	public HomeController(RentService rService) {
+	protected final HomeService rService;
+	public HomeController(HomeService rService) {
 		// TODO Auto-generated constructor stub
 		this.rService = rService;
 		

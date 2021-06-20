@@ -7,13 +7,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.callor.score.model.ViewDTO;
-import com.callor.score.service.RentService;
+import com.callor.score.service.HomeService;
 
 @Service
-public class RentServiceImplV1 implements RentService{
+public class HomeServiceImplV1 implements HomeService{
 	
 	private final JdbcTemplate jdbcTemplate;
-	public RentServiceImplV1(JdbcTemplate jdbcTemplate) {
+	public HomeServiceImplV1(JdbcTemplate jdbcTemplate) {
 		// TODO Auto-generated constructor stub
 		this.jdbcTemplate = jdbcTemplate;
 	}

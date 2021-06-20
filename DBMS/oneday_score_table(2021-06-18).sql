@@ -37,5 +37,5 @@ FROM tbl_student ST
     ORDER BY st_num
     );
 DROP VIEW view_성적일람표;
-INSERT INTO tbl_score(sc_stnum,sc_subject,sc_score)
-values ('20210001','국어',')
+
+
