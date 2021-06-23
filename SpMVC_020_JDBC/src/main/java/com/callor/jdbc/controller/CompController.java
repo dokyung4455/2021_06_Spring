@@ -1,5 +1,7 @@
 package com.callor.jdbc.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -7,9 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.callor.jdbc.model.CompanyVO;
-import com.callor.jdbc.pesistance.CompanyDao;
+import com.callor.jdbc.model.CompVO;
+import com.callor.jdbc.pesistance.CompDao;
 import com.callor.jdbc.service.CompService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value="/comp")
 public class CompController {
 	
-	protected final CompanyDao compDao;
+	protected final CompDao compDao;
 	protected final CompService compService;
-	public CompController( CompanyDao compDao, CompService compService) {
-		// TODO Auto-generated constructor stub
+	public CompController(CompDao compDao, CompService compService) {
 		this.compDao = compDao;
 		this.compService = compService;
 	}
@@ -34,39 +36,52 @@ public class CompController {
 			model.addAttribute("MSG","LOGIN");
 			return "redirect:/member/login";
 		}
+		
+		List<CompVO> compList = compService.selectAll();
+		log.debug("출판사 정보 가져오기: {} ", compList.toString());
+		model.addAttribute("COMPS",compList);
+		return "comp/list";
+	
+	}
+
+	@RequestMapping(value="/list",method=RequestMethod.GET)
+	public String getList(Model model) {
+		List<CompVO> compList = compService.selectAll();
+		model.addAttribute("COMPS",compList);
 		return "comp/list";
 	}
 	
-	// localhost:8080/jdbc/comp/insert로 호출되는 method(함수)
-	@RequestMapping(value="/insert", method=RequestMethod.GET)
+	// localhost:8080/jdbc/comp/insert로 호출되는 함수
+	@RequestMapping(value="/insert",method=RequestMethod.GET)
 	public String insert() {
-		
-
-		return "comp/input"; // WEB-INF/views/comp/input.jsp 를 열어라
+		// WEB-INF/views/comp/input.jsp 열어라
+		return "comp/input";
 	}
 	
-	@RequestMapping(value="/insert", method=RequestMethod.POST)
-	public String insert(CompanyVO cpVO) {
-		//compDao.insert(cpVO);
-		compService.insert(cpVO);
+	@RequestMapping(value="/insert",method=RequestMethod.POST)
+	public String insert(CompVO cmVO) {
 		
-		log.debug("Company VO {}", cpVO.toString());
-		return "redirect:/"; // redirect 작동법, 루트패스로 리다이렉트하라
+		log.debug("Company VO {}",cmVO.toString());
+		compService.insert(cmVO);
+		return "redirect:/";
+	
 	}
 	
 	
-	@RequestMapping(value="/update", method=RequestMethod.GET)
+	@RequestMapping(value="/update",method=RequestMethod.GET)
 	public String update() {
-		
-		
 		
 		return "comp/input";
 	}
-	@RequestMapping(value="/delete", method=RequestMethod.GET)
-	public String delete(@RequestParam("cp_code") String cpCode) { //cpcode라는 이름으로 전송되어 오면 String code에 담아라
+	
+	@RequestMapping(value="/delete",method=RequestMethod.GET)
+	public String delete(@RequestParam("cp_code") String cpCode) {
 		compDao.delete(cpCode);
-		
 		return "redirect:/";
 	}
+	
+	
+	
+	
 
 }

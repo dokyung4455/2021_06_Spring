@@ -2,7 +2,6 @@ package com.callor.jdbc.pesistance.impl;
 
 import java.util.List;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -28,15 +27,8 @@ public class UserDaoImplV1 implements UserDao{
 
 	@Override
 	public UserVO findById(String username) {
-		// TODO Auto-generated method stub
-		String sql = " SELECT * FROM tbl_member ";
-		sql += " WHERE mb_usname = ? ";
-		
-	
-		Object[] params = new Object[] {username};
-		
-		UserVO vo = (UserVO) jdbcTemplate.query(sql, params, new BeanPropertyRowMapper<UserVO>(UserVO.class));
-		return vo;
+		// TODO Auto-generated method stub  
+		return null;
 	}
 
 	@Override

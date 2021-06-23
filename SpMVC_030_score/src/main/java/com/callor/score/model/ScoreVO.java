@@ -1,4 +1,4 @@
-package com.callor.jdbc.model;
+package com.callor.score.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,16 +11,12 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyVO {
+public class ScoreVO {
 	
-	private String cp_code;
-	private String cp_title;
-	private String cp_ceo;
-	private String cp_tel;
-	private String cp_addr;
-	private String cp_genre;
+	private Long sc_seq;
+	private String sc_stnum;
+	private String sc_sbcode;
+	private int sc_score;
 
 	
-	
-
 }

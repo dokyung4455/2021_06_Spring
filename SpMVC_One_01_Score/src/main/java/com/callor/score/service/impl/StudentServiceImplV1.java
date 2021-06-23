@@ -27,7 +27,7 @@ public class StudentServiceImplV1 implements StudentService{
 	@Override
 	public StuDTO findByNum(String st_num) {
 		// TODO 학생정보 조회
-		String sql = " SELECT * FROM view_학생정보 ";
+		String sql = " SELECT st_num,st_name,st_dept,st_grade FROM tbl_student ";
 		sql += " WHERE st_num=? ";
 		Object[] params = new Object[] {st_num};
 		List<StuDTO> sList = jdbcTemplate.query(sql, params,new BeanPropertyRowMapper<StuDTO>(StuDTO.class));
