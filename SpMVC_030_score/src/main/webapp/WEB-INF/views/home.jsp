@@ -24,7 +24,8 @@ body {
 }
 
 header {
-	background: url("${rootPath}/static/images/header_background.jpg")	no-repeat;
+	background: url("${rootPath}/static/images/header_background.jpg")
+		no-repeat;
 	background-size: 100% 100%;
 	background-position: top;
 	background-attachment: fixed;
@@ -36,21 +37,22 @@ header {
 
 section#main_sec {
 	flex: 1;
-	width : 100wv;
+	width: 100wv;
 	display: flex;
 	flex-direction: column;
-	
 	background: linear-gradient(to bottom, blue, red);
 	background-size: 100% 100%;
 	background-attachment: fixed;
 }
+
 h2 {
-	width:90%;
-	color:white;
-	padding:1rem;
-	border:1px solid #aaa; 
-	margin:10px auto 0 auto;
+	width: 90%;
+	color: white;
+	padding: 1rem;
+	border: 1px solid #aaa;
+	margin: 10px auto 0 auto;
 }
+
 table {
 	border: 0;
 	width: 90%;
@@ -102,7 +104,7 @@ div.btn_box {
 	text-align: right;
 }
 
-dix.btn_box button {
+div.btn_box button {
 	border: 0;
 	outline: 0;
 	padding: 5px 8px;
@@ -114,49 +116,84 @@ button:hover {
 	box-shadow: 2px 2px 2px black;
 	cursor: pointer;
 }
+
+button.save {
+	background-color: blue;
+	color: white;
+}
+
+button.reset {
+	background-color: olive;
+	color: white;
+}
+
+button.list {
+	background-color: green;
+	color: white;
+}
+
+button.home {
+	background-color: orange;
+	color: white;
+	text-shadow: 1px 1px 1px black;
+}
+
+button.update {
+	background-color: purple;
+	color: white;
+}
+
+button.delete {
+	background-color: red;
+	color: yellow;
+}
+
+button.insert {
+	background-color: rgba(50, 70, 200, 0.8);
+	color: white;
+}
+
+button.student.list {
+	background-color: rgba(200, 70, 50, 0.8);
+	color: white;
+	text-shadow: 1px 1px 1px black;
+}
+
 form {
-      width: 90%;
-      margin: 0 auto 10px auto;
-   }
-   fieldset {
-      background-color: #eee;
-      border: 1px solid green;
-      border-radius: 10px;
-      padding: 0.7rem;
-   }
-   form label, form input {
-      display: inline-block;
-      margin: 5px;
-      padding: 8px 16px;
-      
-   }
-   form label {
-      width:30%;
-      text-align: right;
-      color: blue;
-      font-weight: bold;
-   }
-   form input {
-      width: 60%;
-      outline: 0;
-      border: #aaa;
-      border-radius: 50px;
-   }
-   form input:hover {
-      background-color: #ddd;
-   }
-   form button.save {
-      background-color: blue;
-      color: white;
-   }
-   form button.reset {
-      background-color: olive;
-      color: white;
-   }
-   form button.list {
-      background-color: green;
-      color: white;
-   }
+	width: 90%;
+	margin: 0 auto 10px auto;
+}
+
+fieldset {
+	background-color: #eee;
+	border: 1px solid green;
+	border-radius: 10px;
+	padding: 0.7rem;
+}
+
+form label, form input {
+	display: inline-block;
+	margin: 5px;
+	padding: 8px 16px;
+}
+
+form label {
+	width: 30%;
+	text-align: right;
+	color: blue;
+	font-weight: bold;
+}
+
+form input {
+	width: 60%;
+	outline: 0;
+	border: #aaa;
+	border-radius: 50px;
+}
+
+form input:hover {
+	background-color: #ddd;
+}
 </style>
 </head>
 <body>
@@ -175,6 +212,9 @@ form {
 			</c:when>
 			<c:when test="${BODY == 'STUDENT_INPUT'}">
 				<%@ include file="/WEB-INF/views/student/input.jsp"%>
+			</c:when>
+			<c:when test="${BODY == 'STUDENT_DETAIL'}">
+				<%@ include file="/WEB-INF/views/student/detail.jsp"%>
 			</c:when>
 			<c:otherwise>
 				<%@ include file="/WEB-INF/views/main.jsp"%>
@@ -208,6 +248,24 @@ if(home) {
 		location.href="${rootPath}/"
 	})
 }
-	
+
+let table = document.querySelector("table.detail")
+if(table) {
+	table.addEventListener("click", (e)=>{
+		let target = e.target
+		let tagName = target.tagName
+		
+		if(tagName === "TD") {
+			let tr = target.closest("TR")
+			let stNum = tr.dataset.stnum
+			location.href = "${rootPath}/student/detail?st_num=" + stNum
+			
+			
+		}
+		
+	})
+}
+
+
 </script>
 </html>

@@ -3,7 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.callor.score.dao.ext.ScoreDao">
-
+	
+	<select id="scoreCount" resultType="Integer">
+		SELECT COUNT(*) FROM tbl_score WHERE sc_stnum = #{sc_stnum}
+	</select>
+	<select id="scoreSum" resultType="Integer">
+		SELECT SUM(sc_sbscore) FROM tbl_score WHERE sc_stnum = #{sc_stnum}
+	</select>
 	<select id="selectAll" resultType="ScoreVO">
 		SELECT * FROM tbl_score
 	</select>
@@ -13,31 +19,53 @@
 	</select>
 	<select id="selectViewAll" resultType="ScoreDTO">
 		SELECT sc_seq,
-		 sc_stnum,
-		  ST.st_name sc_stname,
-		   sc_sbcode,
-		    SB.sb_name sc_sbname,
-		     sc_sbscore 
-		     FROM tbl_score SC
-			LEFT JOIN tbl_student ST ON SC.sc_stnum = ST.st_num
-			LEFT JOIN tbl_subject SB ON SC.sc_sbcode = SB.sb_code
-			ORDER BY sc_stnum, sc_sbcode
-				
+		sc_stnum,
+		ST.st_name sc_stname,
+		sc_sbcode,
+		SB.sb_name sc_sbname,
+		sc_sbscore
+		FROM tbl_score SC
+		LEFT JOIN tbl_student ST ON SC.sc_stnum = ST.st_num
+		LEFT JOIN tbl_subject SB ON SC.sc_sbcode = SB.sb_code
+		ORDER BY sc_stnum, sc_sbcode
+
+	</select>
+	<select id="selectSubjectAndScore" resultType="SubjectAndScoreDTO">
+		SELECT 
+		SB.sb_code as ss_code,
+		SB.sb_name as ss_stname,
+		SB.sb_prof as ss_prof,
+		SC.sc_stnum as ss_stnum,
+		SC.sc_sbscore as ss_score
+		FROM tbl_subject SB
+		LEFT JOIN
+		tbl_score SC
+		ON SC.sc_sbcode = SB.sb_code
+		AND SC.sc_stnum = #{st_num}
 	</select>
 	<insert id="insert" parameterType="ScoreVO">
 		INSERT INTO
 		tbl_score(sc_stnum, sc_sbcode, sc_sbscore)
 		VALUES(#{sc_stnum},#{sc_sbcode},#{sc_sbscore})
 	</insert>
+	<insert id="insertOrUpdate">
+		INSERT INTO tbl_score(sc_stnum, sc_sbcode, sc_sbscore)
+		VALUES (#{sc_stnum},#{sc_sbcode},#{sc_sbscore})
+		
+		ON DUPLICATE KEY UPDATE
+		sc_sbscore = #{sc_sbscore}
+	</insert>
 	<delete id="delete">
 		DELETE FROM tbl_score WHERE sc_stnum = #{sc_stnum}
 	</delete>
 	<update id="update" parameterType="ScoreVO">
 		UPDATE tbl_score SET
-		sc_stnum= #{sc_stnum},
+		sc_stnum=
+		#{sc_stnum},
 		sc_sbcode= #{sc_sbcode},
 		sc_sbscore= #{sc_sbscore},
-		WHERE sc_seq = #{sc_seq}
+		WHERE
+		sc_seq = #{sc_seq}
 	</update>
 
 </mapper>

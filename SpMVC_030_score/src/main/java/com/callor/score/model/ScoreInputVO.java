@@ -1,5 +1,7 @@
 package com.callor.score.model;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +13,8 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScoreVO {
-	
-	private Long sc_seq;
-	private String sc_stnum;
-	private String sc_sbcode;
-	private int sc_sbscore;
-
-	
+public class ScoreInputVO {
+	private String st_num;
+	private List<String> subject;
+	private List<String> score;
 }
