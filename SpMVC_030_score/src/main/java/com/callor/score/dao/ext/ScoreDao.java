@@ -1,6 +1,7 @@
 package com.callor.score.dao.ext;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -38,4 +39,5 @@ public interface ScoreDao extends GenericDao<ScoreVO, Long>{
 	 */
 	// #{sc_stnum},#{sc_sbcode},#{sc_sbscore}
 	public Integer insertOrUpdate(@Param ("sc_stnum") String st_num, @Param ("sc_sbcode") String sc_sbcode, @Param ("sc_sbscore") String sc_sbscore);
+	public Integer insertOrUpdateForList(@Param("st_num")String st_num, @Param("scoreMaps")List<Map<String, String>> scoreMaps);
 }

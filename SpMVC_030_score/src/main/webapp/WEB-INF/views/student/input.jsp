@@ -73,6 +73,7 @@
 			}
 			doc.querySelector("form#student_input").submit()
 		
+			
 	}
 	
 	

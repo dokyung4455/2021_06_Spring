@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/tx https://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	<!-- dataSource -->
 	<bean id="ds" class="org.apache.commons.dbcp2.BasicDataSource">
-	
+
 		<property name="driverClassName"
 			value="com.mysql.cj.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost/db_school" />
@@ -21,15 +21,26 @@
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="ds" />
-		<property name="typeAliasesPackage" value="com.callor.score.model"/>
-		<property name="mapperLocations" value="/WEB-INF/spring/mybatis-mapper/*-mapper.xml"/>
+		<property name="typeAliasesPackage"
+			value="com.callor.score.model" />
+		<property name="mapperLocations"
+			value="/WEB-INF/spring/mybatis-mapper/*-mapper.xml" />
 	</bean>
-	<mybatis-spring:scan base-package="com.callor.score.dao.ext"/>
+	<mybatis-spring:scan
+		base-package="com.callor.score.dao.ext" />
 	<!-- sessionTemplate -->
 	<bean class="org.mybatis.spring.SqlSessionTemplate">
-	
+
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
-	
-	
-</beans>
+
+	<!-- spring.jdbc에서 trasaction설정하기 DataSourceTransactionManager를 bean으로 선언하기 
+		이때 id는 transactionManager로 설정하기 
+		datasourco 속성에 위에서 선언한 datasource를 ref로 지정하기
+		tx:annotation-driven-->
+	<tx:annotation-driven />
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
+	<property name="dataSource" ref="ds" />
+	</bean>
+	</beans>
