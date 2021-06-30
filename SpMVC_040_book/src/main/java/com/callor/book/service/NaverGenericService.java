@@ -24,7 +24,7 @@ import com.callor.book.model.BookDTO;
  * 
  */
 
-public interface NaverService<T> {
+public interface NaverGenericService<T> {
 	
 	// 검색문자열을 받아서 검색을 위한 URL을 생성, return
 	public String queryURL(String search_text);
@@ -34,6 +34,6 @@ public interface NaverService<T> {
 	
 	// JSON 형태의 문자열을 받아서 VO를 담은 List type으로 return
 	// JSON 문자열을 parsing하여 객체(리스트) type으로 변환
-	public List<BookDTO> getNaverList(String jsonString) throws ParseException;
+	public List<T> getNaverList(String jsonString) throws ParseException;
 	
 }
