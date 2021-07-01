@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/tx https://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	<!--  dataSource -->
 		<!--  oracle : jdbc:oracle:thin:@localhost:1501:xe -->
-	<bean class="org.apache.commons.dbcp2.BasicDataSource">
+	<bean id="ds" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://localhost:3306/myLibs"/>
 		<property name="username" value="gbUser"/>
@@ -35,5 +35,5 @@
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="ds"/>
 	</bean>
-	<mybatis-spring:scan base-package="com.callor.book.dao"/>
+	<mybatis-spring:scan base-package="com.callor.book.dao.ext"/>
 </beans>

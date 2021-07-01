@@ -1,5 +1,18 @@
 package com.callor.book.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class NewsDTO {
 	
 	private String title;//	string	개별 검색 결과이며, title, originallink, link, description, pubDate 를 포함한다.
