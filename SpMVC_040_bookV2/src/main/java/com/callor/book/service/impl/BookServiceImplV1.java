@@ -37,10 +37,17 @@ public class BookServiceImplV1 implements BookService {
 		String jsonString = nBookService.getJsonString(queryURL);
 		List<BookDTO> books = nBookService.getNaverList(jsonString);
 		BookDTO book = books.get(0);
+		
 		book.setIsbn(isbn);
 		bookDao.insert(book);
 				
 		return 0;
+	}
+	@Override
+	public List<BookDTO> selectAll() {
+		// TODO Auto-generated method stub
+		List<BookDTO> bookList = bookDao.selectAll();
+		return bookList;
 	}
 
 }

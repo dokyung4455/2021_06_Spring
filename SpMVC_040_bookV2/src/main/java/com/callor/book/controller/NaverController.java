@@ -2,6 +2,7 @@ package com.callor.book.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.List;
 
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.callor.book.model.BookDTO;
+import com.callor.book.service.BookService;
 import com.callor.book.service.impl.NaverMainServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -39,14 +42,16 @@ public class NaverController {
 	
 	protected final NaverMainServiceImpl nService;
 	
+//	protected final BookService myBookService;
+	
 	@RequestMapping(value="/{CAT}")
 	public String home(@PathVariable(name="CAT")String cat,@RequestParam(name = "search", required = false, defaultValue = "")String search, Model model) throws MalformedURLException, IOException, ParseException {
 		
 		log.debug("CAT {}", cat);
 		model.addAttribute("CAT", cat);
-		
+//		List<BookDTO> myBookList = myBookService.selectAll();
+//		model.addAttribute("MY_BOOKS",myBookList);
 		nService.NaverGetData(cat, search, model);
-		
 		return "home";
 	}
 	
