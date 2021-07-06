@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.callor.book.model.BookDTO;
 import com.callor.book.service.BookService;
@@ -55,5 +57,13 @@ public class NaverController {
 		return "home";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/json", method=RequestMethod.GET)
+	public String getJson() throws Exception {
+		String cat = "NEWS";
+		String search = "COVID";
+		String jsonString = nService.NaverGetJsonString(cat, search);
+		return jsonString;
+	}
 
 }

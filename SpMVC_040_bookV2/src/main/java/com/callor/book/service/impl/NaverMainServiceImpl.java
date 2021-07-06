@@ -1,6 +1,7 @@
 package com.callor.book.service.impl;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -57,5 +58,13 @@ public class NaverMainServiceImpl {
 				model.addAttribute("MOVIES", movies);
 			}
 		}
+	}
+
+	public String NaverGetJsonString(String cat, String search) throws Exception {
+		// TODO Auto-generated method stub
+		String queryURL = nNewsService.queryURL(search);
+		String jsonString = nNewsService.getJsonString(queryURL);
+		
+		return jsonString;
 	}
 }
