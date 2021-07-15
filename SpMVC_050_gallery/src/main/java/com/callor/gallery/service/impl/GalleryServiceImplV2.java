@@ -10,31 +10,27 @@ import com.callor.gallery.model.GalleryDTO;
 import com.callor.gallery.persistance.ext.FileDao;
 import com.callor.gallery.persistance.ext.GalleryDao;
 import com.callor.gallery.service.FileService;
+import com.callor.gallery.service.PageService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service("galleryServiceV2")
-public class GalleryServiceImplV2 extends GalleryServiceImplV1{
+public class GalleryServiceImplV2 extends GalleryServiceImplV1 {
 
-	/*
-	 * 
-	 * @RequireArgConstructor 문제로 상속받은 클래스에서
-	 * 강제로 생성자 만들어야 함
-	 * 
-	 */
-	public GalleryServiceImplV2(
-				GalleryDao gaDao, 
-				FileDao fDao, 
-				@Qualifier("fileServiceV2")  FileService fService) {
-		super(gaDao, fDao, fService);
+//	@RequireArgConstructor를 사용한 클래스를 상속받을때는 상속받은 클래스에서  강제로 생성자 만들어야 함
+//	eClipse의 자동완성 기능을 사용하여 생성자를 만든다.
+//	만약 매개변수로 설정된 요소 중에 interface를 상속받은 클래스가 2개 이상일 경우 @Qulifier()를 설정해야 하는데
+//	이때 각 매개변수의 요소 type 앞에 작성해 주면 된다.
+	public GalleryServiceImplV2(GalleryDao gaDao, FileDao fDao, @Qualifier("fileServiceV2") FileService fService, PageService pageService) {
+		super(gaDao, fDao, fService, pageService);
 	}
 
 	@Override
 	public GalleryDTO findByIdGellery(Long g_seq) {
 
 		GalleryDTO gallery = gaDao.findByIdGalleryFilesResultMap(g_seq);
-		if(gallery != null) {
+		if (gallery != null) {
 			log.debug("갤러리 데이터 {}", gallery.toString());
 		}
 		return gallery;
@@ -56,27 +52,40 @@ public class GalleryServiceImplV2 extends GalleryServiceImplV1{
 	 */
 	@Override
 	public int delete(Long g_seq) {
-		
+
 		// Gallery 데이터와 fileList 데이터가 같이 포함된 데이터다
 		GalleryDTO gaDTO = gaDao.findByIdGalleryFilesResultMap(g_seq);
-		if(gaDTO == null) {
+		if (gaDTO == null) {
 			return 0;
 		}
 
 		List<FileDTO> fileList = gaDTO.getFileList();
-		for(FileDTO file : fileList) {
-			
+		for (FileDTO file : fileList) {
+
 			// 첨부파일 삭제
+			String attFileName = file.getFile_upname();
+			int ret = fService.delete(attFileName);
+
 			// 데이터 한개씩 삭제
-			
+			if (ret > 0) {
+				fDao.delete(file.getFile_seq());
+			}
+
 		}
-		
+
 		// 본문 첨부파일 삭제
-		
-		// 본문 데이터 삭제
+		String imgFileName = gaDTO.getG_image();
+		int ret = fService.delete(imgFileName);
+		if (ret > 0) {
+			// 본문 데이터 삭제
+			gaDao.delete(g_seq);
+		} else {
+			log.debug("파일삭제");
+		}
+
 		// gaDao.delete(g_seq);
 
 		return 0;
 	}
-	
+
 }

@@ -5,65 +5,88 @@
 
 <mapper namespace="com.callor.gallery.persistance.ext.GalleryDao">
 
+	<select id="countAll" resultType="Integer">
+		SELECT COUNT(*) FROM
+		tbl_gallery
+	</select>
 	<select id="selectAll" resultType="GalleryDTO">
 		SELECT * FROM tbl_gallery
 		ORDER BY g_date DESC, g_time DESC
 	</select>
 	<select id="findById" resultType="GalleryDTO">
 		SELECT * FROM tbl_gallery
-		WHERE g_seq = #{g_seq}
+		WHERE
+		g_seq = #{g_seq}
 	</select>
 
-	<!-- 
-	select된 결과를 DTO와 매칭하는 중간단계 RowMapper
-	id : table select 했을때 PK지정된 값을
-		property : DTO변수이름, column : SELECT 된 칼럼이름, AS 된 칼럼이름
-	result : PK가 아닌 칼럼들
-		property : DTO변수이름, column : SELECT 된 칼럼이름, AS 된 칼럼이름
-	-->
+	<!-- 매개변수로 칼럼명과 검색어를 전달 받아서 조건 검색하기 -->
+	<select id="findBySearch" resultType="GalleryDTO" >
+		SELECT * FROM tbl_gallery
+		<if test="text != null and text !='NONE'">
+			<if test="column == 'g_subject'">
+				WHERE g_subject LIKE CONCAT('%', #{text}, '%')
+			</if>
+			<if test="column == 'g_content'">
+				WHERE g_content LIKE CONCAT('%', #{text}, '%')
+			</if>
+			<if test="column == 'g_writer'">
+				WHERE g_writer LIKE CONCAT('%', #{text}, '%')
+			</if>
+			<if test="column == 'g_subjectOrContent'">
+				WHERE g_subject LIKE CONCAT('%', #{text}, '%') OR g_content LIKE
+				CONCAT('%', #{text}, '%')
+			</if>
+		</if>
+
+	</select>
+
+	<!-- select된 결과를 DTO와 매칭하는 중간단계 RowMapper id : table select 했을때 PK지정된 값을 
+		property : DTO변수이름, column : SELECT 된 칼럼이름, AS 된 칼럼이름 result : PK가 아닌 칼럼들 
+		property : DTO변수이름, column : SELECT 된 칼럼이름, AS 된 칼럼이름 -->
 	<resultMap type="GalleryDTO" id="galleryDTOResultMap">
 		<id property="g_seq" column="g_seq" />
-		<result column="g_writer" property="g_writer"/>
-		<result column="g_date" property="g_date"/>
-		<result column="g_time" property="g_time"/>
-		<result column="g_content" property="g_content"/>
-		<result column="g_image" property="g_image"/>
-		
+		<result column="g_writer" property="g_writer" />
+		<result column="g_date" property="g_date" />
+		<result column="g_time" property="g_time" />
+		<result column="g_content" property="g_content" />
+		<result column="g_image" property="g_image" />
+
 		<collection property="fileList" ofType="FileDTO">
-			<id property="file_seq" column="f_seq"/>
-			<result property="file_original" column="f_original"/>
-			<result property="file_upname" column="f_upname"/>
+			<id property="file_seq" column="f_seq" />
+			<result property="file_original" column="f_original" />
+			<result property="file_upname" column="f_upname" />
 		</collection>
 	</resultMap>
 
 	<sql id="selectGalleryAndFiles">
 		SELECT
-			G.g_seq AS g_seq,
-			G.g_writer AS g_writer,
-			G.g_date AS g_date, G.g_time AS g_time,
-			G.g_subject AS g_subject,
-			G.g_content AS g_content,
-			G.g_image AS g_image,
-			
-			F.file_seq AS f_seq,
-			F.file_original f_original,
-			F.file_upname AS f_upname
+		G.g_seq AS g_seq,
+		G.g_writer AS g_writer,
+		G.g_date AS g_date, G.g_time AS g_time,
+		G.g_subject AS g_subject,
+		G.g_content AS g_content,
+		G.g_image AS g_image,
+
+		F.file_seq AS f_seq,
+		F.file_original f_original,
+		F.file_upname AS f_upname
 		FROM tbl_gallery G
-			LEFT JOIN tbl_files F
-				ON G.g_seq = F.file_gseq
-		WHERE G.g_seq = #{g_seq} 
+		LEFT JOIN tbl_files F
+		ON G.g_seq = F.file_gseq
+		WHERE G.g_seq = #{g_seq}
 	</sql>
 
 
-	<select id="findByIdGalleryFilesResultMap" resultMap="galleryDTOResultMap" >
+	<select id="findByIdGalleryFilesResultMap"
+		resultMap="galleryDTOResultMap">
 		<include refid="selectGalleryAndFiles">
-			<property name="g_seq" value="#{g_seq}"/>
+			<property name="g_seq" value="#{g_seq}" />
 		</include>
 	</select>
 
 	<select id="findByIdGalleryFiles" resultType="GalleryFilesDTO">
 		<include refid="selectGalleryAndFiles">
-			<property name="g_seq" value="#{g_seq}"/>
+			<property name="g_seq" value="#{g_seq}" />
 		</include>
 	</select>
 
@@ -73,7 +96,8 @@
 	<insert id="insert" parameterType="GalleryDTO">
 		INSERT INTO tbl_gallery (
 		g_writer, g_date, g_time,
-		g_subject, g_content, g_image
+		g_subject,
+		g_content, g_image
 		) VALUES (
 		#{g_writer}, #{g_date}, #{g_time},
 		#{g_subject}, #{g_content}, #{g_image}
@@ -86,7 +110,10 @@
 
 
 	<update id="update"></update>
-	<delete id="delete"></delete>
+	<delete id="delete">
+		DELETE FROM tbl_gallery
+		WHERE g_seq = #{g_seq}
+	</delete>
 
 	<!-- 현재 프로젝트에서 프로젝트를 Run 하면 자동으로 table을 검사하여 table이 없으면 새로 생성하도록 작성 DDL 
 		명령(CREATE, DROP, ALTER)을 수행하면 Transaction이 완전히 무시된다. Transaction 한가지의 일련의 
@@ -98,11 +125,14 @@
 		mapper와 Dao를 활용하여 DDL명령을 사용하는것을 밝히지 않는다 -->
 	<update id="create_table">
 		CREATE TABLE IF NOT EXISTS tbl_gallery (
-		g_seq BIGINT AUTO_INCREMENT PRIMARY KEY,
+		g_seq BIGINT
+		AUTO_INCREMENT PRIMARY KEY,
 		g_writer VARCHAR(125) NOT NULL,
-		g_date VARCHAR(10) NOT NULL,
+		g_date
+		VARCHAR(10) NOT NULL,
 		g_time VARCHAR(10) NOT NULL,
-		g_subject VARCHAR(50) NOT NULL,
+		g_subject VARCHAR(50)
+		NOT NULL,
 		g_content VARCHAR(1000) NOT NULL,
 		g_image VARCHAR(256)
 		)

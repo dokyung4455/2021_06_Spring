@@ -19,7 +19,7 @@
 		flex:3;
 	}
 </style>
-
+<%@ include file="/WEB-INF/views/include/include_gallery_search.jspf" %>
 <c:forEach
 	items="${GALLERYS}"
 	var="GALLERY">
@@ -36,7 +36,7 @@
 		<div>
 			<h3>
 				<a href="${rootPath}/gallery/detail2/${GALLERY.g_seq}">
-					${GALLERY.g_subject}
+					${GALLERY.g_subject}( ${GALLERY.g_seq} )
 				</a>
 			</h3>
 			<p>${GALLERY.g_content}</p>
@@ -44,4 +44,14 @@
 	</div>
 
 </c:forEach>
+
+<%@ include file="/WEB-INF/views/include/include_page_nav.jspf" %>
+
+
+
+
+
+
+
+
 

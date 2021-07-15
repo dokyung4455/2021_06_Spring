@@ -6,7 +6,10 @@
 <!-- 해당 Dao 경로 넣기 -->
 <mapper namespace="com.callor.gallery.persistance.ext.FileDao">
 	<select id="selectAll"></select>
-	<select id="findById"></select>
+	<select id="findById">
+		SELECT * FROM tbl_files
+		WHERE file_seq = #{file_seq}
+	</select>
 	<!--  개별적으로 한개 데이터씩 Insert  -->
 	<insert id="insert" parameterType="FileDTO">
 		INSERT INTO tbl_files (
@@ -85,14 +88,21 @@
 		file_upname = f_upname
 	</insert>
 	<update id="update"></update>
-	<delete id="delete"></delete>
+	<delete id="delete">
+		DELETE FROM tbl_files
+		WHERE file_seq = #{file_seq}
+	</delete>
 	<update id="create_table">
 		CREATE TABLE IF NOT EXISTS tbl_files(
 		file_seq BIGINT
+		
 		AUTO_INCREMENT PRIMARY KEY,
 		file_gseq BIGINT NOT NULL ,
 		file_original VARCHAR(256) NOT NULL ,
-		file_upname VARCHAR(256) NOT NULL
+		file_upname VARCHAR(256) NOT NULL,
+		CONSTRAINT FOREIGN KEY (file_gseq)
+		REFERENCES tbl_gallery(g_seq)
+		ON DELETE CASCADE
 		);
 	</update>
 

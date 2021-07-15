@@ -98,6 +98,7 @@ public class MemberServiceImplV1 implements MemberService {
 		}
 		if(findVO.getM_password().equals(memberVO.getM_password())) {
 			
+			
 			return findVO;
 		}
 		model.addAttribute("LOGIN_FAIL", "NEQ_PASS");

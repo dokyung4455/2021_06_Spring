@@ -17,7 +17,7 @@ nav ul {
 	display: flex;
 }
 
-/* li 에 padding을 주어서 적당히 간격, box 크기를 설정 */
+/* li 에 padding을 주어서 적당히 간격, box 크기기를 설정 */
 /* 마우스 커서를 손가락 모양 */
 nav li {
 	padding:16px;

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -63,10 +64,24 @@ public class GalleryController {
 	// localhost:8080/rootPath/gallery/ 또는
 	// localhost:8080/rootPath/gallery 로 요청했을 때
 	@RequestMapping(value={"/", ""},method=RequestMethod.GET)
-	public String list(Model model) throws Exception {
+	public String list(@RequestParam(value="pageNum",required = false, defaultValue = "1")String pageNum, Model model, 
+			@RequestParam(value="search_column",required = false, defaultValue = "NONE")String search_column, 
+			@RequestParam(value="search_text",required = false, defaultValue = "NONE")String search_text) throws Exception {
 		
-		List<GalleryDTO> gaList = gaService.selectAll();
-		model.addAttribute("GALLERYS",gaList);
+		int intPageNum = Integer.valueOf(pageNum);
+		List<GalleryDTO> gaList = gaService.selectAllPage(intPageNum);
+		
+//		List<GalleryDTO> gaList = gaService.selectAll();
+		if(intPageNum > 0) {
+			model.addAttribute("PAGE_NUM",intPageNum);
+		}
+//		tbl_gallery table 전체 List를 가져와서 전체 리스트를 표시하기 위해서 몇페이지의 nav의 필요한지
+//		List<GalleryDTO> gallerPageList = gaService.selectAllPage(intPageNum,model);
+//		model.addAttribute("GALLERYS",gallerPageList);
+		
+		// search_column, search_text를 사용하여 조건검색
+		gaService.findBySearchPage(intPageNum, search_text, search_column, model);
+		
 		model.addAttribute("BODY","GA-LIST");
 		return "home";
 		
@@ -185,6 +200,23 @@ public class GalleryController {
 		return "redirect:/gallery";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/file/delete/{seq}", method=RequestMethod.GET)
+	public String file_delete(@PathVariable("seq")String seq) {
+		
+		Long g_seq = 0L;
+		try {
+			g_seq = Long.valueOf(seq);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			return "FAIL_SEQ";
+		}
+		
+		int ret = gaService.file_delete(g_seq);
+		
+		if(ret>0) return "OK";
+		else return "FAIL";
+	}
 	
 	
 	

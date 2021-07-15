@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>나의 홈페이지</title>
+<script src="https://kit.fontawesome.com/0e39d84f96.js" crossorigin="anonymous"></script>
 <style>
 * {
 	box-sizing: border-box;
@@ -169,7 +170,7 @@ if(main_nav) {
 			if(menu.id === "join") {
 				location.href = "${rootPath}/member/join"
 			} else if(menu.id === "login") {
-				location.href = "${rootPath}/member/login/nav"
+				location.href = "${rootPath}/member/login"
 			} else if(menu.id === "logout") {
 				location.href = "${rootPath}/member/logout"
 			} else if(menu.id === "image_create") {
